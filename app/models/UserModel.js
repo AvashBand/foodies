@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
-		minlength: 5,
+		minlength: 2,
 		trim: true,
 	},
 	password: {
@@ -25,19 +25,16 @@ var UserSchema = new mongoose.Schema({
 	},
 	is_active: {
 		type: Boolean,
-		required: true,
-		default: false,
-
+		default: false
 	}, 
 	is_admin: {
 		type: Boolean,
-		required: true,
-		default: false,
+		default: false
 	},
 	tokens : [{
 		token: {
 			type: String,
-			required: true
+			default: ''
 		}
 	}]
 });

@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "play": "node playground/play.js"
+    "play": "node playground/play.js",
+    "play:watch": "nodemon playground/play.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
