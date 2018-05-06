@@ -50,14 +50,20 @@ exports.get = (req, res) => {
 //User Login
 
 exports.login = (req, res) => {
-  var body = _.pick(req.body, ['email', 'password']);
+  var body = _.pick(req.body, ['username', 'password']);
 
-  Member.findByCredentials(body.email, body.password).then((member) => {
+  Member.findByCredentials(body.username, body.password).then((member) => {
+
     return member.generateAuthToken().then((token) => {
+    	
       res.header('x-auth', token).send(member);
+
     });
+
   }).catch((e) => {
+
     res.status(400).send({error_msg: e});
+
   });
 };
 

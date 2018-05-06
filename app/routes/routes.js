@@ -16,6 +16,7 @@ Route.get('/', (request, response)=>{
 	Route.get('members/:id', 'MemberController.get');
 	Route.get('members', 'MemberController.get_all');
 	Route.post('members/login', 'MemberController.login');
+	Route.post('members/logout', 'MemberController.logout');
 	// Route.patch('members/:id', 'MemberController.update');
 	// Route.delete('members/:id', 'MemberController.delete');
 
