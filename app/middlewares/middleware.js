@@ -10,10 +10,8 @@ exports.auth = (request, response, next) => {
 	    if (!user) {
 	      return Promise.reject();
 	    }
-
 	    request.user = user;
 	    request.token = token;
-
 	    next();
 	  }).catch((e) => {
 	    res.status(401).send();
