@@ -1,72 +1,71 @@
 exports = module.exports; 
 
-var Food = require(global._model + '/FoodModel');
+var Order = require(global._model + '/OrderModel');
 
-//POST new food to database
+//POST new order to database
 exports.store = (req, res) => {
-	var newFood = new Food({
-		name: req.body.name,
-		price: req.body.price,
-		image_url: req.body.imageUrl
+	var newOrder = new Order({
+		user_id: req.body.user_id,
+		food_id: req.body.food_id,
 	});
-	newFood.save().then((doc) => {
+	newOrder.save().then((doc) => {
 		res.status(200).send(doc);
 	}).catch((e) => {
 		res.status(401).send({error_msg: e});
 	});
 }
-//GET all foods
+//GET all orders
 exports.get_all = (req, res) => {
 	try {
-		res.send(foods);
+		res.send(orders);
 	} catch(e) {
 		res.status(400).send({error_msg: e});
 	}
 }
-//GET a single food
+//GET a single order
 exports.get = (req, res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
 		return res.status(400).send({error_msg: `ID ${id} not valid.`});
 	}
-	Food.findOne({_id: id}).then((food) => {
-		if(!food){
-			return res.status(400).send({error_msg: `Food with ${id} not found.`});
+	Order.findOne({_id: id}).then((order) => {
+		if(!order){
+			return res.status(400).send({error_msg: `Order with ${id} not found.`});
 		}
-		res.status(200).send(food);
+		res.status(200).send(order);
 	}).catch((e) => {
 		res.status(400).send({error_msg: e});
 	});
 }
-//Update a food
+//Update an order
 exports.update = (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['name', 'price', 'imageUrl']);
+	var body = _.pick(req.body, ['user_id', 'food_id', ]);
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
-	Food.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((food) => {
-		if(!food){
-			return res.status(404).send({error_msg: `Food with ${id} not found.`});
+	Order.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((order) => {
+		if(!order){
+			return res.status(404).send({error_msg: `Order with ${id} not found.`});
 		}
-		res.status(200).send(food);
+		res.status(200).send(order);
 	}).catch((e) => {
 		res.status(400).send({error_msg: e});
 	});
 }
-//Delete a food
+//Delete an order
 exports.delete = (req, res) => {
 	var id = req.params.id;
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
-	Food.findOneAndRemove({
+	Order.findOneAndRemove({
 		_id: id
-	}).then((food) => {
-		if(!food){
-			return res.status(404).send({error_msg: `Food with ${id} not found.`});
+	}).then((order) => {
+		if(!order){
+			return res.status(404).send({error_msg: `Order with ${id} not found.`});
 		}
-		res.send(food);
+		res.status(200).send(order);
 	}).catch((e) => {
 		res.status(400).send({error_msg: e});
 	});

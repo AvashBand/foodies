@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var FoodSchema = mongoose.Schema({
+var Food = mongoose.model('Food', {
 	name: {
 		type: String,
 		required: true,

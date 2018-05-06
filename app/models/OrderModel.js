@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var OrderSchema = mongoose.model('Order', {
+var Order = mongoose.model('Order', {
 	user_id: {
 		type: String,
 		required: true
@@ -16,7 +16,7 @@ var OrderSchema = mongoose.model('Order', {
 	},
 	updated_at: {
 		type: String,
-		default: new Date()
+		default: null
 	},
 });
 
