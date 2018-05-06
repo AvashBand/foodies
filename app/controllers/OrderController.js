@@ -9,7 +9,7 @@ exports.store = (req, res) => {
 	newOrder.save().then((doc) => {
 		res.status(200).send(doc);
 	}).catch((e) => {
-		res.status(401).send({error_msg: e});
+		res.status(400).send({error_msg: e});
 	});
 }
 //GET all orders
