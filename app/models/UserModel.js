@@ -76,7 +76,7 @@ UserSchema.methods.removeToken = function (token) {
   });
 };
 
-UserSchema.methods.is_admin = function () {
+UserSchema.methods.is_Admin = function () {
   var user = this;
   return this.is_admin;
 };
