@@ -4,10 +4,8 @@ var Order = require(global._model + '/OrderModel');
 
 //POST new order to database
 exports.store = (req, res) => {
-	var newOrder = new Order({
-		user_id: req.body.user_id,
-		food_id: req.body.food_id,
-	});
+	var body = _.pick(req.body, ['user_id', 'food_id']);
+	var newOrder = new Order(body);
 	newOrder.save().then((doc) => {
 		res.status(200).send(doc);
 	}).catch((e) => {
@@ -16,11 +14,14 @@ exports.store = (req, res) => {
 }
 //GET all orders
 exports.get_all = (req, res) => {
-	try {
-		res.send(orders);
-	} catch(e) {
+	Order.find().then((orders) => {
+		if(!orders){
+			return res.status(400).send({error_msg: `No orders available`});
+		}
+		res.status(200).send(orders);
+	}).catch((e) => {
 		res.status(400).send({error_msg: e});
-	}
+	});
 }
 //GET a single order
 exports.get = (req, res) => {
