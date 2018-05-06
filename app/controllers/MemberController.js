@@ -23,9 +23,9 @@ exports.register = (req, res) => {
 exports.get_all = (req, res) => {
 	Member.find().then((members) =>{
 		var filtered_members = members.filter(member => !member.is_admin);
-		res.send(filtered_members);
+		res.status(200).send(filtered_members);
 	}).catch((e)=>{
-		res.send(e);
+		res.status(400).send(e);
 	});
 }
 
