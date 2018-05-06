@@ -15,7 +15,7 @@ exports.store = (req, res) => {
 	  })
 	};
 }
-//GET all members
+//GET all members  //Authentication needed
 exports.get_all = (req, res) => {
 	try {
 		res.send(members);
@@ -23,6 +23,30 @@ exports.get_all = (req, res) => {
 		res.status(400).send({error_msg: e});
 	}
 }
+//User Login
+exports.login = (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+
+  Member.findByCredentials(body.email, body.password).then((member) => {
+    return member.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(member);
+    });
+  }).catch((e) => {
+    res.status(400).send({error_msg: e});
+  });
+};
+
+//User Logout
+exports.logout = (req, res) => {
+  req.member.removeToken(req.token).then(() => {
+    res.status(200).send();
+  }, () => {
+    res.status(400).send();
+  });
+};
+
+//Users/me route not made
+
 //GET a single member
 exports.get = (req, res) => {
 	var id = req.params.id;
