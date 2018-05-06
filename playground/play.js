@@ -25,5 +25,8 @@ sample.shallow = ()=>{
 sample.mellow = ()=>{
 	console.log('naponaisa');
 }
-
-console.log(sample);
+if (sample.depo) {
+	console.log('present');
+}else{
+	console.log('!!!!present');
+}

@@ -13,12 +13,12 @@ Route.get('/', (request, response)=>{
 
 //Member
 	Route.post('members', 'MemberController.register');
-	Route.get('members/:id', 'MemberController.get');
-	Route.get('members', 'MemberController.get_all');
+	Route.middleware('auth', 'admin').get('members/:id', 'MemberController.get');
+	Route.middleware('auth', 'admin').get('members', 'MemberController.get_all');
 	Route.post('members/login', 'MemberController.login');
-	Route.post('members/logout', 'MemberController.logout');
-	// Route.patch('members/:id', 'MemberController.update');
-	// Route.delete('members/:id', 'MemberController.delete');
+	Route.middleware('auth').post('members/logout', 'MemberController.logout');
+	Route.middleware('auth', 'admin').patch('members/:id', 'MemberController.activate');
+	Route.middleware('auth', 'admin').delete('members/:id', 'MemberController.delete');
 
 //Order
 	// Route.post('orders', 'OrderController.store');
