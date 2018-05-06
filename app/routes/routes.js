@@ -1,8 +1,12 @@
 var { Route } = require(global._dir + '/lib/routes');
 
-Route.get('/', (req, res)=>{
-	res.send('Welcome');
+Route.get('/', (request, response)=>{
+	response.send({
+		message: "dsjakdlasjda",
+		name: 'dsadasdsada'
+	});
 });
+
 //Foods
 	Route.post('foods', 'FoodController.store');
 	Route.get('foods/:id', 'FoodController.get');
@@ -25,3 +29,11 @@ Route.get('/', (req, res)=>{
 	Route.delete('orders/:id', 'OrderController.delete');
 
 module.exports = Route.routes;
+
+const express = require('express');
+
+
+
+
+
+
