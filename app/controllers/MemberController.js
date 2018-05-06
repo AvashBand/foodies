@@ -23,9 +23,9 @@ exports.register = (req, res) => {
 exports.get_all = (req, res) => {
 	Member.find().then((members) =>{
 		var filtered_members = members.filter(member => !member.is_admin);
-		res.send(filtered_members);
+		res.status(200).send(filtered_members);
 	}).catch((e)=>{
-		res.send(e);
+		res.status(400).send(e);
 	});
 }
 
@@ -34,11 +34,11 @@ exports.get = (req, res) => {
 
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
-		return res.status(400).send({error_msg: `ID ${id} not valid.`});
+		return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
 	Member.findOne({_id: id}).then((member) => {
 		if(!member){
-			return res.status(400).send({error_msg: `Member with ${id} not found.`});
+			return res.status(404).send({error_msg: `Member with ${id} not found.`});
 		}
 		res.status(200).send(member);
 	}).catch((e) => {

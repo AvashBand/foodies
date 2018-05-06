@@ -4,24 +4,24 @@ var Food = require(global._model + '/FoodModel');
 
 //POST new food to database
 exports.store = (req, res) => {
-	var newFood = new Food({
-		name: req.body.name,
-		price: req.body.price,
-		image_url: req.body.imageUrl
-	});
+	var body = _.pick(req.body, ['name', 'price', 'image_url']);
+	var newFood = new Food(body);
 	newFood.save().then((doc) => {
 		res.status(200).send(doc);
 	}).catch((e) => {
-		res.status(401).send({error_msg: e});
+		res.status(400).send({error_msg: e});
 	});
 }
 //GET all foods
 exports.get_all = (req, res) => {
-	try {
-		res.send(foods);
-	} catch(e) {
+	Food.find().then((foods) => {
+		if(!foods){
+			return res.status(400).send({error_msg: `No foods available`});
+		}
+		res.status(200).send(foods);
+	}).catch((e) => {
 		res.status(400).send({error_msg: e});
-	}
+	});
 }
 //GET a single food
 exports.get = (req, res) => {
