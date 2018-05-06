@@ -16,7 +16,7 @@ var Order = mongoose.model('Order', {
 	},
 	updated_at: {
 		type: String,
-		default: new Date()
+		default: null
 	},
 });
 
