@@ -4,7 +4,7 @@ var Member = require(global._model + '/UserModel');
 
 //POST new member to database (just copies and pasted/ has to be updated)
 exports.store = (req, res) => {
-	var body = _.pick(request.body, ['name', 'username', 'password', 'imageUrl']);
+	var body = _.pick(request.body, ['name', 'username', 'password', 'imageUrl', 'is_active', 'is_admin']);
 	var newMember = new Member(body);
 	  newMember.save().then(() => {
 	    return user.generateAuthToken();
@@ -41,7 +41,7 @@ exports.get = (req, res) => {
 //Update a member
 exports.update = (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['name', 'price', 'imageUrl']);
+	var body = _.pick(req.body, ['name', 'username', 'password', 'imageUrl', 'is_active']);
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
