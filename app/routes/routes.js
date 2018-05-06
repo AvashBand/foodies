@@ -1,21 +1,10 @@
 var { Route } = require(global._dir + '/lib/routes');
 
-Route.post('/', (request, response)=>{
-	var User = require(global._model + '/UserModel');
-	var user = new User({
-		name : request.body.name,
-		username: request.body.username,
-		password: request.body.password,
-	});
-	user.save().then(()=>{
-		response.send('sucessfully created');
-	}).catch((e)=>{
-		response.send(e);
-	});
-
+Route.get('/', (request, response)=>{
+	response.send('Hello');
 });
 
-/*//Foods
+//Foods
 	Route.post('foods', 'FoodController.store');
 	Route.get('foods/:id', 'FoodController.get');
 	Route.get('foods', 'FoodController.get_all');
@@ -35,7 +24,7 @@ Route.post('/', (request, response)=>{
 	Route.get('orders', 'OrderController.get_all');
 	Route.patch('orders/:id', 'OrderController.update');
 	Route.delete('orders/:id', 'OrderController.delete');
-*/
+
 module.exports = Route.routes;
 
 const express = require('express');
