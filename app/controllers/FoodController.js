@@ -45,6 +45,9 @@ exports.update = (req, res) => {
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
+
+	// update goes here
+
 	Food.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((food) => {
 		if(!food){
 			return res.status(404).send({error_msg: `Food with ${id} not found.`});
