@@ -1,3 +1,2 @@
-const {mongoose} = require('./sample');
-
-require('./player');
+var st = '/sample';
+console.log(st[0]);
