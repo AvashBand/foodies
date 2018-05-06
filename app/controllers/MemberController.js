@@ -55,8 +55,8 @@ exports.login = (req, res) => {
   	if(!filtered_member){
   		return res.status(404).send({error_msg: `${body.email} is currently inactive.`});
   	}
-    return member.generateAuthToken().then((token) => {
-      res.header('x-auth', token).send(member);
+    return filtered_member.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(filtered_member);
     });
   }).catch((e) => {
     res.status(400).send({error_msg: e});
