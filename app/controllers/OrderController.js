@@ -16,7 +16,7 @@ exports.store = (req, res) => {
 exports.get_all = (req, res) => {
 	Order.find().then((orders) => {
 		if(!orders){
-			return res.status(400).send({error_msg: `No orders available`});
+			return res.status(404).send({error_msg: `No orders available`});
 		}
 		res.status(200).send(orders);
 	}).catch((e) => {
@@ -27,11 +27,11 @@ exports.get_all = (req, res) => {
 exports.get = (req, res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
-		return res.status(400).send({error_msg: `ID ${id} not valid.`});
+		return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
 	Order.findOne({_id: id}).then((order) => {
 		if(!order){
-			return res.status(400).send({error_msg: `Order with ${id} not found.`});
+			return res.status(404).send({error_msg: `Order with ${id} not found.`});
 		}
 		res.status(200).send(order);
 	}).catch((e) => {
