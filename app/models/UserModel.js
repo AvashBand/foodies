@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var User = mongoose.model('User',{
+var UserSchema = new mongoose.Schema({
 	name : {
 		type: String,
 		required: true,
@@ -41,6 +41,13 @@ var User = mongoose.model('User',{
 		}
 	}]
 });
+
+//Methods for UserSchema
+UserSchema.methods.toJSON = function(){
+	
+}
+
+var User = mongoose.model('User',);
 
 module.exports = User;
 
