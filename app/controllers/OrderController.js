@@ -41,7 +41,7 @@ exports.get = (req, res) => {
 //Update an order
 exports.update = (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['user_id', 'food_id', ]);
+	var body = _.pick(req.body, ['user_id', 'food_id', 'is_cancelled', 'updated_at']);
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}

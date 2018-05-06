@@ -48,11 +48,13 @@ exports.get = (req, res) => {
 }
 
 //User Login
-
 exports.login = (req, res) => {
-  var body = _.pick(req.body, ['email', 'password']);
-
+  var body = _.pick(req.body, ['email', 'password']); 
   Member.findByCredentials(body.email, body.password).then((member) => {
+  	var filtered_member = members.filter(member => !member.is_active);
+  	if(!filtered_member){
+  		return res.status(404).send({error_msg: `${body.email} is currently inactive.`});
+  	}
     return member.generateAuthToken().then((token) => {
       res.header('x-auth', token).send(member);
     });
