@@ -10,9 +10,9 @@ exports.store = (req, res) => {
 		image_url: req.body.imageUrl
 	});
 	newFood.save().then((doc) => {
-		res.send(doc);
+		res.status(200).send(doc);
 	}).catch((e) => {
-		res.send(e);
+		res.status(401).send({error_msg: e});
 	});
 }
 
@@ -21,50 +21,83 @@ exports.get_all = (req, res) => {
 	try {
 		res.send(foods);
 	} catch(e) {
-		res.send(e);
+		res.status(401).send({error_msg: e});
 	}
 }
-
-app.get('/todos/:id', authenticate, (req, res) => {
-  var id = req.params.id;
-
-  if (!ObjectID.isValid(id)) {
-    return res.status(404).send();
-  }
-
-  Todo.findOne({
-    _id: id,
-    _creator: req.user._id
-  }).then((todo) => {
-    if (!todo) {
-      return res.status(404).send({error_msg:`Foods not found`});
-    }
-
-    res.send({todo});
-  }).catch((e) => {
-    res.status(400).send({error_msg:''});
-  });
-});
 
 //GET a single food
 exports.get = (req, res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
-		return res.status(400).send();
+		return res.status(400).send({error_msg: `ID ${id} not valid.`});
 	}
 	Food.findOne({_id: id}).then((food) => {
 		if(!food){
-			return res.status(400).send();
+			return res.status(400).send({error_msg: `Food with ${id} not found.`});
 		}
+		res.send(food);
+	}).catch((e) => {
+		res.status(401).send({error_msg: e});
 	});
 }
 
 //Update a food
 exports.update = (req, res) => {
-
+	var id = req.params.id;
+	var body = _.pick(req.body, ['name', 'price', 'imageUrl']);
+	if (!ObjectID.isValid(id)) {
+	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
+	}
+	Food.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((food) => {
+		if(!food){
+			return res.status(404).send();
+		}
+		
+	})
 }
 
+{
+	app.patch('/todos/:id', authenticate, (req, res) => {
+	  var id = req.params.id;
+	  var body = _.pick(req.body, ['text', 'completed']);
+
+	  if (!ObjectID.isValid(id)) {
+	    return res.status(404).send();
+	  }
+
+	  if (_.isBoolean(body.completed) && body.completed) {
+	    body.completedAt = new Date().getTime();
+	  } else {
+	    body.completed = false;
+	    body.completedAt = null;
+	  }
+
+	  Todo.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((todo) => {
+	    if (!todo) {
+	      return res.status(404).send();
+	    }
+
+	    res.send({todo});
+	  }).catch((e) => {
+	    res.status(400).send();
+	  })
+	});
+
+}
 //Delete a food
 exports.delete = (req, res) => {
-
+	var id = req.params.id;
+	if (!ObjectID.isValid(id)) {
+	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
+	}
+	Food.findOneAndRemove({
+		_id: id
+	}).then((food) => {
+		if(!food){
+			return res.status(404).send({error_msg: `Food with ${id} not found.`});
+		}
+		res.send(food);
+	}).catch((e) => {
+		res.status(400).send({error_msg: e});
+	});
 }

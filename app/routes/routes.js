@@ -2,7 +2,7 @@ var { Route } = require(global._dir + '/lib/routes');
 
 Route.get('/', (request, response)=>{
 	response.send({
-		message: "dsjakdlasjda",
+		message: `dsjakdlasjda`,
 		name: 'dsadasdsada'
 	});
 });
