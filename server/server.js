@@ -1,7 +1,9 @@
 require(global._dir + '/server/config/config.js');
 
 const express = require('express');
+const bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.json());
 
 //intializing mongoose
 var mongoose = require('./db/mongoose');

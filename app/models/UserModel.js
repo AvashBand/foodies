@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var UserSchema = mongoose.model('User',{
+var User = mongoose.model('User',{
 	name : {
 		type: String,
 		required: true,
@@ -8,15 +8,11 @@ var UserSchema = mongoose.model('User',{
 		minlength: 5,
 		trim: true
 	},
-	email: {
+	username: {
 		type: String,
 		required: true,
-		minlength: 5,
+		minlength: 2,
 		trim: true,
-		validate: {
-		  validator: validator.isEmail,
-		  message: '{VALUE} is not a valid email'
-		}
 	},
 	password: {
 		type: String,
@@ -29,19 +25,16 @@ var UserSchema = mongoose.model('User',{
 	},
 	is_active: {
 		type: Boolean,
-		required: true,
-		default: false,
-
+		default: false
 	}, 
 	is_admin: {
 		type: Boolean,
-		required: true,
-		default: false,
+		default: false
 	},
 	tokens : [{
 		token: {
 			type: String,
-			required: true
+			default: ''
 		}
 	}]
 });
