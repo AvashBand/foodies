@@ -79,6 +79,28 @@ exports.activate = (req, res) => {
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
+
+	// update goes here
+
+	Member.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((member) => {
+		if(!member){
+			return res.status(404).send({error_msg: `member with ${id} not found.`});
+		}
+		res.status(200).send(member);
+	}).catch((e) => {
+		res.status(400).send({error_msg: e});
+	});
+}
+
+exports.changePassword = (req, res) => {
+	var id = req.params.id;
+	var body = _.pick(req.body, ['password']);
+	if (!ObjectID.isValid(id)) {
+	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
+	}
+
+	// update goes here
+
 	Member.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((member) => {
 		if(!member){
 			return res.status(404).send({error_msg: `member with ${id} not found.`});
