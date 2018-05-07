@@ -15,7 +15,7 @@ exports.register = (req, res) => {
 	  }).then((token) => {
 	    res.header('x-auth', token).send(newMember);
 	  }).catch((e) => {
-	    res.status(400).send{error_msg: e});
+	    res.status(400).send({error_msg: e});
 	  })
 };
 
@@ -24,9 +24,9 @@ exports.get_all = (req, res) => {
 	Member.find().then((members) =>{
 		var filtered_members = members.filter(member => !member.is_admin);
 		if(!filtered_members){
-			res.status(404).send({error_msg: `No members found.`})
+			return res.status(404).send({error_msg: `No members found.`})
 		}
-		res.status(200).send(filtered_members);
+		return res.status(200).send(filtered_members);
 	}).catch((e)=>{
 		res.status(400).send({error_msg: e});
 	});

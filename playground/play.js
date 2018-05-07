@@ -1,32 +1,5 @@
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// var app = express();
-// app.use(bodyParser.json());
-
-// app.post('/', (req, res)=>{
-// 	console.log(req);
-// 	res.send('hey');
-// });
-
-// app.listen(3000, ()=>{
-// 	console.log('Started at port 3000');
-// });
-
-
-var sample = {};
-sample.hello = ()=>{
-	console.log('reponasie');
-}
-
-sample.shallow = ()=>{
-	console.log('deconasia');
-}
-
-sample.mellow = ()=>{
-	console.log('naponaisa');
-}
-if (sample.depo) {
-	console.log('present');
-}else{
-	console.log('!!!!present');
-}
+var options = {  
+    weekday: "long", year: "numeric", month: "short",  
+    day: "numeric", hour: "2-digit", minute: "2-digit"  
+};
+console.log(new Date(1525679708852).toLocaleDateString("en-us"));

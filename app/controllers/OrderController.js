@@ -1,16 +1,21 @@
 exports = module.exports; 
 
 var Order = require(global._model + '/OrderModel');
+var _ = require('lodash');
+const {ObjectID} = require('mongodb');
 
 //POST new order to database
 exports.store = (req, res) => {
-	var body = _.pick(req.body, ['user_id', 'food_id']);
+	var body = _.pick(req.body, ['username', 'food_id']);
+
 	var newOrder = new Order(body);
-	newOrder.save().then((doc) => {
+
+	newOrder.validateAndSave().then((doc) => {
 		res.status(200).send(doc);
 	}).catch((e) => {
-		res.status(400).send({error_msg: e});
+		res.status(400).send({error_msg: e});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 	});
+	
 }
 //GET all orders
 exports.get_all = (req, res) => {
@@ -23,6 +28,7 @@ exports.get_all = (req, res) => {
 		res.status(400).send({error_msg: e});
 	});
 }
+
 //GET a single order
 exports.get = (req, res) => {
 	var id = req.params.id;
@@ -38,15 +44,18 @@ exports.get = (req, res) => {
 		res.status(400).send({error_msg: e});
 	});
 }
-//Update an order
+
+//Cancel an order
 exports.cancel = (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['is_cancelled', 'updated_at']);
+	var body = {
+		is_cancelled: true,
+		updated_at: Date.now()
+	};
+	
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
-
-	// update goes here
 
 	Order.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((order) => {
 		if(!order){
@@ -57,6 +66,7 @@ exports.cancel = (req, res) => {
 		res.status(400).send({error_msg: e});
 	});
 }
+
 //Delete an order
 exports.delete = (req, res) => {
 	var id = req.params.id;

@@ -5,11 +5,11 @@ Route.get('/', (request, response)=>{
 });
 
 //Foods
-	Route.post('foods', 'FoodController.store');
-	Route.get('foods/:id', 'FoodController.get');
-	Route.get('foods', 'FoodController.get_all');
-	Route.patch('foods/:id', 'FoodController.update');
-	Route.delete('foods/:id', 'FoodController.delete');
+	Route.middleware('auth', 'admin').post('foods', 'FoodController.store');
+	Route.middleware('auth').get('foods/:id', 'FoodController.get');
+	Route.middleware('auth').get('foods', 'FoodController.get_all');
+	Route.middleware('auth','admin').patch('foods/:id', 'FoodController.update');
+	Route.middleware('auth','admin').delete('foods/:id', 'FoodController.delete');
 
 //Member
 	Route.post('members', 'MemberController.register');
@@ -21,10 +21,10 @@ Route.get('/', (request, response)=>{
 	Route.middleware('auth', 'admin').delete('members/:id', 'MemberController.delete');
 
 //Order
-	// Route.post('orders', 'OrderController.store');
-	// Route.get('orders/:id', 'OrderController.get');
-	// Route.get('orders', 'OrderController.get_all');
-	// Route.patch('orders/:id', 'OrderController.cancel');
-	// Route.delete('orders/:id', 'OrderController.delete');
+	Route.middleware('auth', 'order').post('orders', 'OrderController.store');
+	Route.middleware('auth', 'admin').get('orders/:id', 'OrderController.get');
+	Route.middleware('auth', 'admin').get('orders', 'OrderController.get_all');
+	Route.middleware('auth').patch('orders/:id', 'OrderController.cancel');
+	Route.middleware('auth', 'admin').delete('orders/:id', 'OrderController.delete');
 
 module.exports = Route.routes;

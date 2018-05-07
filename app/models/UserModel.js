@@ -8,13 +8,13 @@ var UserSchema = new mongoose.Schema({
 	name : {
 		type: String,
 		required: true,
-		unique: true,
 		minlength: 5,
 		trim: true
 	},
 	username: {
 		type: String,
 		required: true,
+    unique: true,
 		minlength: 2,
 		trim: true,
 	},

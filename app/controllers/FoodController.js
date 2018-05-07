@@ -1,10 +1,12 @@
 exports = module.exports; 
 
 var Food = require(global._model + '/FoodModel');
+var _ = require('lodash');
+const {ObjectID} = require('mongodb');
 
 //POST new food to database
 exports.store = (req, res) => {
-	var body = _.pick(req.body, ['name', 'price', 'image_url']);
+	var body = _.pick(req.body, ['name', 'price']);
 	var newFood = new Food(body);
 	newFood.save().then((doc) => {
 		res.status(200).send(doc);
@@ -12,6 +14,7 @@ exports.store = (req, res) => {
 		res.status(400).send({error_msg: e});
 	});
 }
+
 //GET all foods
 exports.get_all = (req, res) => {
 	Food.find().then((foods) => {
