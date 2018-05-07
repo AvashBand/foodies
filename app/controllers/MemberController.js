@@ -15,7 +15,7 @@ exports.register = (req, res) => {
 	  }).then((token) => {
 	    res.header('x-auth', token).send(newMember);
 	  }).catch((e) => {
-	    res.status(400).send(e);
+	    res.status(400).send{error_msg: e});
 	  })
 };
 
@@ -23,9 +23,12 @@ exports.register = (req, res) => {
 exports.get_all = (req, res) => {
 	Member.find().then((members) =>{
 		var filtered_members = members.filter(member => !member.is_admin);
+		if(!filtered_members){
+			res.status(404).send({error_msg: `No members found.`})
+		}
 		res.status(200).send(filtered_members);
 	}).catch((e)=>{
-		res.status(400).send(e);
+		res.status(400).send({error_msg: e});
 	});
 }
 
@@ -74,7 +77,7 @@ exports.logout = (req, res) => {
     	msg : 'Successfully Logged Out'
     });
   }, (e) => {
-    res.status(400).send(e);
+    res.status(400).send({error_msg: e});
   });
 };
 
@@ -112,7 +115,7 @@ exports.delete = (req, res) => {
 		if(!member){
 			return res.status(404).send({error_msg: `member with ${id} not found.`});
 		}
-		res.send({
+		res.status(200).send({
 			msg: 'successfully deleted!!'
 		});
 	}).catch((e) => {

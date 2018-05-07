@@ -16,7 +16,7 @@ exports.store = (req, res) => {
 exports.get_all = (req, res) => {
 	Food.find().then((foods) => {
 		if(!foods){
-			return res.status(400).send({error_msg: `No foods available`});
+			return res.status(404).send({error_msg: `No foods available`});
 		}
 		res.status(200).send(foods);
 	}).catch((e) => {
@@ -27,11 +27,11 @@ exports.get_all = (req, res) => {
 exports.get = (req, res) => {
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
-		return res.status(400).send({error_msg: `ID ${id} not valid.`});
+		return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
 	Food.findOne({_id: id}).then((food) => {
 		if(!food){
-			return res.status(400).send({error_msg: `Food with ${id} not found.`});
+			return res.status(404).send({error_msg: `Food with ${id} not found.`});
 		}
 		res.status(200).send(food);
 	}).catch((e) => {
@@ -41,7 +41,7 @@ exports.get = (req, res) => {
 //Update a food
 exports.update = (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['name', 'price', 'imageUrl']);
+	var body = _.pick(req.body, ['name', 'price']);
 	if (!ObjectID.isValid(id)) {
 	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
