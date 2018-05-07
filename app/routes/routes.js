@@ -5,11 +5,11 @@ Route.get('/', (request, response)=>{
 });
 
 //Foods
-	// Route.post('foods', 'FoodController.store');
-	// Route.get('foods/:id', 'FoodController.get');
-	// Route.get('foods', 'FoodController.get_all');
-	// Route.patch('foods/:id', 'FoodController.update');
-	// Route.delete('foods/:id', 'FoodController.delete');
+	Route.post('foods', 'FoodController.store');
+	Route.get('foods/:id', 'FoodController.get');
+	Route.get('foods', 'FoodController.get_all');
+	Route.patch('foods/:id', 'FoodController.update');
+	Route.delete('foods/:id', 'FoodController.delete');
 
 //Member
 	Route.post('members', 'MemberController.register');
@@ -24,7 +24,7 @@ Route.get('/', (request, response)=>{
 	// Route.post('orders', 'OrderController.store');
 	// Route.get('orders/:id', 'OrderController.get');
 	// Route.get('orders', 'OrderController.get_all');
-	// Route.patch('orders/:id', 'OrderController.update');
+	// Route.patch('orders/:id', 'OrderController.cancel');
 	// Route.delete('orders/:id', 'OrderController.delete');
 
 module.exports = Route.routes;
