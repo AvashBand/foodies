@@ -10,11 +10,7 @@ exports.register = (req, res) => {
 	var body = _.pick(req.body, ['name', 'username', 'password']);
 	var newMember = new Member(body);
 	  newMember.save().then(() => {
-<<<<<<< HEAD
-	   res.status(200).send(newMember);
-=======
 	  	res.status(200).send({msg: 'Success'});
->>>>>>> 1f8be76799efec26e00c1594a4d9cddc2643d24a
 	  }).catch((e) => {
 	    res.status(400).send({error_msg: e});
 	  })
