@@ -62,19 +62,19 @@ exports.exists = (req, res) => {
 //User Login
 
 exports.login = (req, res) => {
-  var body = _.pick(req.body, ['username', 'password']);
-
+	var body = _.pick(req.body, ['username', 'password']);
   Member.findByCredentials(body.username, body.password).then((member) => {
-
-    return member.generateAuthToken().then((token) => {
-    	
-      res.send({
-      	x_auth: token,
-      	member_data: member
-      });
-
-    });
-
+		if(member.is_active){
+			return member.generateAuthToken().then((token) => {
+				res.send({
+					x_auth: token,
+					member_data: member
+				});
+			});
+		}
+    res.status(401).send({
+			msg: 'User not active'
+		});
   }).catch((e) => {
 
     res.status(400).send({error_msg: e});
