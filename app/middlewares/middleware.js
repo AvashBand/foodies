@@ -55,6 +55,9 @@ exports.order = (request, response, next)=>{
 			return next();
 		}
 	}).catch((e)=>{
+		if (request.url === '/orders/check/'){
+			return response.status(200).send(e);
+		}
 		response.status(401).send(e);
 	});
 

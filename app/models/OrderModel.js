@@ -69,23 +69,12 @@ OrderSchema.statics.findOrderByUser = function(user_id){
 	startTime = Date.parse(startTime);
 	endTime = Date.parse(endTime);
 	
-	return order.find({is_cancelled : false}).where('updated_at').gt(startTime).lt(endTime).populate(['users', 'foods']).exec().then((orders)=>{
+	return order.find({is_cancelled : false, users : user_id}).where('updated_at').gt(startTime).lt(endTime).populate(['users', 'foods']).exec().then((orders)=>{
 		if(!_.isEmpty(orders)){
-			var has_ordered = false;
-			orders.forEach(order => {
-				if(order.users.id == user_id) {
-					if(!order.is_cancelled){
-						return has_ordered = true;
-					}
-					return false;
-				}
+			return Promise.reject({
+				msg : "Already Ordered",
+				order: orders
 			});
-			if(has_ordered){
-				return Promise.reject({
-					msg : "Already Ordered",
-					order: orders
-				});
-			}
 		}
 		return true;
 		
