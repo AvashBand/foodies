@@ -10,10 +10,7 @@ exports.register = (req, res) => {
 	var body = _.pick(req.body, ['name', 'username', 'password']);
 	var newMember = new Member(body);
 	  newMember.save().then(() => {
-	  	console.log('entering into gen');
-	    return newMember.generateAuthToken();
-	  }).then((token) => {
-	    res.header('x-auth', token).send(newMember);
+	  	res.status(200).send({msg: 'Success'});
 	  }).catch((e) => {
 	    res.status(400).send({error_msg: e});
 	  })
