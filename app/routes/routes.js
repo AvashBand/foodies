@@ -13,6 +13,7 @@ Route.get('/', (request, response)=>{
 
 //Member
 	Route.post('members', 'MemberController.register');
+	Route.get('members/:username', 'MemberController.exists');	
 	Route.middleware('auth', 'admin').get('members/:id', 'MemberController.get');
 	Route.middleware('auth', 'admin').get('members', 'MemberController.get_all');
 	Route.post('members/login', 'MemberController.login');

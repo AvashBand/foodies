@@ -16,7 +16,7 @@ var UserSchema = new Schema({
 		type: String,
 		required: true,
     unique: true,
-		minlength: 2,
+		minlength: 5,
 		trim: true,
 	},
 	password: {
@@ -43,11 +43,9 @@ var UserSchema = new Schema({
 	tokens : [{
     access:{
       type: String,
-      required: true
     },
 		token: {
 			type: String,
-			required: true
 		}
 	}]
 });
@@ -58,7 +56,7 @@ UserSchema.methods.toJSON = function () {
   var user = this;
   var userObject = user.toObject();
 
-  return _.pick(userObject, ['_id', 'username', 'is_active', 'is_admin']);
+  return _.pick(userObject, ['_id', 'name', 'username', 'is_active', 'is_admin']);
 };
 
 UserSchema.methods.generateAuthToken = function () {
