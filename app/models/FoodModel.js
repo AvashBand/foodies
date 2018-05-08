@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var Food = mongoose.model('Food', {
+var FoodSchema = new Schema({
 	name: {
 		type: String,
 		required: true,
@@ -14,7 +15,13 @@ var Food = mongoose.model('Food', {
 	image_url: {
 		type: String,
 		default: 'N/A'
+	},
+	orders:{
+		type: Schema.Types.ObjectId,
+		ref: 'Order'
 	}
 });
+
+var Food = mongoose.model('Food', FoodSchema);
 
 module.exports = Food;

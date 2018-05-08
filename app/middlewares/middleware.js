@@ -1,6 +1,7 @@
 exports = module.exports;
 
 var User = require(global._model + '/UserModel');
+var Order = require(global._model + '/OrderModel');
 
 exports.auth = (request, response, next) => {
 	var token = request.header('x-auth');
@@ -48,5 +49,13 @@ exports.admin = (request, response, next)=>{
 }
 
 exports.order = (request, response, next)=>{
-	next();	
+	var member = request.member;
+	Order.findOrderByUser(member._id).then((doc) => {
+		if(doc){
+			return next();
+		}
+	}).catch((e)=>{
+		response.status(401).send(e);
+	});
+
 }

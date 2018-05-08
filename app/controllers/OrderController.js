@@ -6,8 +6,9 @@ const {ObjectID} = require('mongodb');
 
 //POST new order to database
 exports.store = (req, res) => {
-	var body = _.pick(req.body, ['username', 'food_id']);
-
+	var body = {};
+	body.foods = req.body.food_id;
+	body.users = req.member._id;
 	var newOrder = new Order(body);
 
 	newOrder.validateAndSave().then((doc) => {
@@ -19,11 +20,12 @@ exports.store = (req, res) => {
 }
 //GET all orders
 exports.get_all = (req, res) => {
-	Order.find().then((orders) => {
+	Order.find().populate(['foods', 'users']).then((orders) => {
 		if(!orders){
 			return res.status(404).send({error_msg: `No orders available`});
 		}
 		res.status(200).send(orders);
+			
 	}).catch((e) => {
 		res.status(400).send({error_msg: e});
 	});
@@ -35,7 +37,7 @@ exports.get = (req, res) => {
 	if(!ObjectID.isValid(id)){
 		return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
-	Order.findOne({_id: id}).then((order) => {
+	Order.findOne({_id: id}).populate(['foods', 'users']).then((order) => {
 		if(!order){
 			return res.status(404).send({error_msg: `Order with ${id} not found.`});
 		}

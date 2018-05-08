@@ -27,4 +27,5 @@ Route.get('/', (request, response)=>{
 	Route.middleware('auth').patch('orders/:id', 'OrderController.cancel');
 	Route.middleware('auth', 'admin').delete('orders/:id', 'OrderController.delete');
 
+
 module.exports = Route.routes;

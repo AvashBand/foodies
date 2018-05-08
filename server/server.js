@@ -16,5 +16,5 @@ var routes = require(global._dir + '/app/routes/routes.js');
 app.use(Router(routes));
 
 app.listen(port, ()=>{
-	console.log(`Started at port ${port}`);
+	console.log(`Listenting at port ${port}`);
 });

@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
-var UserSchema = new mongoose.Schema({
+var UserSchema = new Schema({
 	name : {
 		type: String,
 		required: true,
@@ -34,7 +35,11 @@ var UserSchema = new mongoose.Schema({
 	is_admin: {
 		type: Boolean,
 		default: false
-	},
+  },
+  orders: {
+    type: Schema.Types.ObjectId,
+    ref: 'Order'
+  },
 	tokens : [{
     access:{
       type: String,
