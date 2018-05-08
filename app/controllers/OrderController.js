@@ -86,3 +86,9 @@ exports.delete = (req, res) => {
 		res.status(400).send({error_msg: e});
 	});
 }
+
+exports.check = (req, res) => {
+	res.status(200).send({
+		msg: 'Not ordered yet'
+	});
+}

@@ -63,8 +63,8 @@ OrderSchema.methods.toJSON = function(){
 
 OrderSchema.statics.findOrderByUser = function(user_id){
 	var order = this;
-	var startTime = new Date().toDateString() + ' 08:00:00';
-	var endTime = new Date().toDateString() + ' 17:30:00';
+	var startTime = new Date().toDateString() + ' ' + process.env.ORDER_START;
+	var endTime = new Date().toDateString() + ' ' + process.env.ORDER_END;
 
 	startTime = Date.parse(startTime);
 	endTime = Date.parse(endTime);

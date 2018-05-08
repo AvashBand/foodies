@@ -22,11 +22,12 @@ Route.get('/', (request, response)=>{
 	Route.middleware('auth', 'admin').delete('members/:id', 'MemberController.delete');
 
 //Order
+	Route.middleware('auth', 'order').get('orders/check/', 'OrderController.check');
 	Route.middleware('auth', 'order').post('orders', 'OrderController.store');
 	Route.middleware('auth', 'admin').get('orders/:id', 'OrderController.get');
 	Route.middleware('auth', 'admin').get('orders', 'OrderController.get_all');
 	Route.middleware('auth').patch('orders/:id', 'OrderController.cancel');
 	Route.middleware('auth', 'admin').delete('orders/:id', 'OrderController.delete');
-
+	
 
 module.exports = Route.routes;
