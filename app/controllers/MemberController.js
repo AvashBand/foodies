@@ -114,13 +114,8 @@ exports.update = (req, res) => {
 
 //Delete a member
 exports.delete = (req, res) => {
-	var id = req.params.id;
-	if (!ObjectID.isValid(id)) {
-	  return res.status(404).send({msg: `ID ${id} not valid.`});
-	}
-	Member.findOneAndRemove({
-		_id: id,
-	}).then((member) => {
+	var username = req.params.username;	
+	Member.findOneAndRemove({username: username}).then((member) => {
 		if(!member){
 			return res.status(404).send({msg: `member with ${id} not found.`});
 		}

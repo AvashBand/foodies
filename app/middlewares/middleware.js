@@ -56,10 +56,7 @@ exports.order = (request, response, next)=>{
 			return next();
 		}
 	}).catch((e)=>{
-		if (request.url === '/orders/check/'){
-			return response.status(200).send(e);
-		}
-		response.status(401).send(e);
+		response.status(404).send(e);
 	});
 
 }
@@ -71,6 +68,17 @@ exports.member_exists = (request, response, next) => {
 			return response.status(404).send({msg: 'User not found'});
 		}
 		request.activate_member = !member.is_active;
+		next();
+	})
+}
+
+exports.order_status = (request, response, next) => {
+	let id = request.params.id
+	User.findOne({ _id : id }).then((order) => {
+		if(_.isEmpty(order)){
+			return response.status(404).send({msg: 'Order not found'});
+		}
+		request.is_cancelled = member.is_cancelled;
 		next();
 	})
 }

@@ -37,6 +37,7 @@ exports.get = (req, res) => {
 	if(!ObjectID.isValid(id)){
 		return res.status(404).send({error_msg: `ID ${id} not valid.`});
 	}
+	var is_cancelled = req.is_cancelled;
 	Order.findOne({_id: id}).populate(['foods', 'users']).then((order) => {
 		if(!order){
 			return res.status(404).send({error_msg: `Order with ${id} not found.`});

@@ -19,7 +19,7 @@ Route.get('/', (request, response)=>{
 	Route.middleware('auth', 'admin').get('members', 'MemberController.get_all');
 	Route.post('members/login', 'MemberController.login');
 	Route.middleware('auth', 'admin', 'member_exists').patch('members/:username', 'MemberController.update');
-	Route.middleware('auth', 'admin').delete('members/:id', 'MemberController.delete');
+	Route.middleware('auth', 'admin', 'member_exists').delete('members/:username', 'MemberController.delete');
 
 //Order
 	Route.middleware('auth', 'order').get('orders/check/', 'OrderController.check');
