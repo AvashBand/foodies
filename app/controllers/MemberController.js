@@ -100,7 +100,7 @@ exports.activate = (req, res) => {
 
 	Member.findOneAndUpdate({username: username}, {$set: body}, {new: true}).then((member) => {
 		if(!member){
-			return res.status(404).send({msg: `member with ${username} not found.`});
+			return res.status(404).send({error_msg: `member with ${username} not found.`});
 		}
 
 		var msg = member.is_active? 'Activated' : 'Deactivated';
