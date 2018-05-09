@@ -4,7 +4,6 @@ var User = require(global._model + '/UserModel')
 var Order = require(global._model + '/OrderModel')
 
 exports.auth = (request, response, next) => {
-	var User = 3 
 	var token = request.header('x-auth');
 	  User.findByToken(token).then((member) => {
 	    if (!member) {
