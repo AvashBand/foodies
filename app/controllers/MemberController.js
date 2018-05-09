@@ -95,15 +95,12 @@ exports.logout = (req, res) => {
 
 //Activate a member
 exports.activate = (req, res) => {
-	var id = req.params.id;
+	var username = req.params.username;
 	var body = req.body;
 
-	if (!ObjectID.isValid(id)) {
-	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
-	}
-	Member.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((member) => {
+	Member.findOneAndUpdate({username: username}, {$set: body}, {new: true}).then((member) => {
 		if(!member){
-			return res.status(404).send({error_msg: `member with ${id} not found.`});
+			return res.status(404).send({error_msg: `member with ${username} not found.`});
 		}
 
 		var msg = member.is_active? 'Activated' : 'Deactivated';
