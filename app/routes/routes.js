@@ -12,12 +12,12 @@ Route.get('/', (request, response)=>{
 	Route.middleware('auth','admin').delete('foods/:id', 'FoodController.delete');
 
 //Member
+	Route.middleware('auth').patch('members/logout', 'MemberController.logout');
 	Route.post('members', 'MemberController.register');
 	Route.get('members/:username', 'MemberController.exists');	
 	Route.middleware('auth', 'admin').get('members/:id', 'MemberController.get');
 	Route.middleware('auth', 'admin').get('members', 'MemberController.get_all');
 	Route.post('members/login', 'MemberController.login');
-	Route.middleware('auth').post('members/logout', 'MemberController.logout');
 	Route.middleware('auth', 'admin').patch('members/:id', 'MemberController.activate');
 	Route.middleware('auth', 'admin').delete('members/:id', 'MemberController.delete');
 
