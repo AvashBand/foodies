@@ -2,6 +2,7 @@ exports = module.exports
 
 var User = require(global._model + '/UserModel')
 var Order = require(global._model + '/OrderModel')
+var _ = require('lodash')
 
 exports.auth = (request, response, next) => {
 	var token = request.header('x-auth');
@@ -61,4 +62,15 @@ exports.order = (request, response, next)=>{
 		response.status(401).send(e);
 	});
 
+}
+
+exports.member_exists = (request, response, next) => {
+	let username = request.params.username
+	User.findOne({ username : username }).then((member) => {
+		if(_.isEmpty(member)){
+			return response.status(404).send({msg: 'User not found'});
+		}
+		request.activate_member = !member.is_active;
+		next();
+	})
 }

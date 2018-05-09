@@ -94,9 +94,9 @@ exports.logout = (req, res) => {
 };
 
 //Activate a member
-exports.activate = (req, res) => {
+exports.update = (req, res) => {
 	var username = req.params.username;
-	var body = req.body;
+	var body = { is_active : req.activate_member};
 
 	Member.findOneAndUpdate({username: username}, {$set: body}, {new: true}).then((member) => {
 		if(!member){
