@@ -12,7 +12,7 @@ exports.register = (req, res) => {
 	  newMember.save().then(() => {
 	  	res.status(200).send({msg: 'Success'});
 	  }).catch((e) => {
-	    res.status(400).send({error_msg: e});
+	    res.status(400).send({msg: e});
 	  })
 };
 
@@ -21,11 +21,11 @@ exports.get_all = (req, res) => {
 	Member.find().then((members) =>{
 		var filtered_members = members.filter(member => !member.is_admin);
 		if(!filtered_members){
-			return res.status(404).send({error_msg: `No members found.`})
+			return res.status(404).send({msg: `User not found.`})
 		}
 		return res.status(200).send(filtered_members);
 	}).catch((e)=>{
-		res.status(400).send({error_msg: e});
+		res.status(400).send({msg: e});
 	});
 }
 
@@ -34,15 +34,15 @@ exports.get = (req, res) => {
 
 	var id = req.params.id;
 	if(!ObjectID.isValid(id)){
-		return res.status(404).send({error_msg: `ID ${id} not valid.`});
+		return res.status(404).send({msg: `ID ${id} not valid.`});
 	}
 	Member.findOne({_id: id}).then((member) => {
 		if(!member){
-			return res.status(404).send({error_msg: `Member with id ${id} not found.`});
+			return res.status(404).send({msg: `Member with id ${id} not found.`});
 		}
 		res.status(200).send(member);
 	}).catch((e) => {
-		res.status(400).send({error_msg: e});
+		res.status(400).send({msg: e});
 	});
 }
 
@@ -55,7 +55,7 @@ exports.exists = (req, res) => {
 		}
 		res.send(member);
 	}).catch((e) => {
-		res.status(400).send({error_msg: e});
+		res.status(400).send({msg: e});
 	});
 }
 
@@ -73,11 +73,11 @@ exports.login = (req, res) => {
 			});
 		}
     res.status(401).send({
-			msg: 'User not active'
+			msg: "Your ID hasn't been approved by admin yet. Sorry for the inconvenience."
 		});
   }).catch((e) => {
 
-    res.status(400).send({error_msg: e});
+    res.status(400).send({msg: 'Incorrect username or password.'});
 
   });
 };
@@ -89,21 +89,18 @@ exports.logout = (req, res) => {
     	msg : 'Successfully Logged Out'
     });
   }, (e) => {
-    res.status(400).send({error_msg: e});
+    res.status(400).send({msg: e});
   });
 };
 
 //Activate a member
 exports.activate = (req, res) => {
-	var id = req.params.id;
+	var username = req.params.username;
 	var body = req.body;
 
-	if (!ObjectID.isValid(id)) {
-	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
-	}
-	Member.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((member) => {
+	Member.findOneAndUpdate({username: username}, {$set: body}, {new: true}).then((member) => {
 		if(!member){
-			return res.status(404).send({error_msg: `member with ${id} not found.`});
+			return res.status(404).send({msg: `member with ${username} not found.`});
 		}
 
 		var msg = member.is_active? 'Activated' : 'Deactivated';
@@ -111,7 +108,7 @@ exports.activate = (req, res) => {
 			msg: msg + " Successfulty!"
 		});
 	}).catch((e) => {
-		res.status(400).send({error_msg: e});
+		res.status(400).send({msg: e});
 	});
 }
 
@@ -119,18 +116,18 @@ exports.activate = (req, res) => {
 exports.delete = (req, res) => {
 	var id = req.params.id;
 	if (!ObjectID.isValid(id)) {
-	  return res.status(404).send({error_msg: `ID ${id} not valid.`});
+	  return res.status(404).send({msg: `ID ${id} not valid.`});
 	}
 	Member.findOneAndRemove({
 		_id: id,
 	}).then((member) => {
 		if(!member){
-			return res.status(404).send({error_msg: `member with ${id} not found.`});
+			return res.status(404).send({msg: `member with ${id} not found.`});
 		}
 		res.status(200).send({
 			msg: 'successfully deleted!!'
 		});
 	}).catch((e) => {
-		res.status(400).send({error_msg: e});
+		res.status(400).send({msg: e});
 	});
 }
